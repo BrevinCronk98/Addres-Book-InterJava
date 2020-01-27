@@ -60,20 +60,27 @@ function displayContactDetails(addressBookToDisplay) {
     contactsList.html(htmlForContactInfo);
 }
 
+function resetFormInputs(formInputs) {
+    formInputs.forEach(function(formInput) {
+        formInput.val("");
+    })
+}
+
 var addressBook = new AddressBook();
 
 $(document).ready(function() {
 
     $("form#create-contact-form").submit(function(event) {
         event.preventDefault();
-        var inputtedFirstName = $("input#new-first-name").val();
-        var inputtedLastName = $("input#new-last-name").val();
-        var inputtedPhoneNumber = $("input#new-phone-number").val();
-        var inputtedEmail = $("input#new-email").val();
-        var newContact = new Contact (inputtedFirstName, inputtedLastName,inputtedPhoneNumber, inputtedEmail);
+        var firstNameInput = $("input#new-first-name");
+        var lastNameInput= $("input#new-last-name");
+        var phoneNumberInput = $("input#new-phone-number");
+        var emailInput = $("input#new-email");
+        var inputArray = [firstNameInput, lastNameInput, phoneNumberInput, emailInput];
+
+        var newContact = new Contact (firstNameInput.val(), lastNameInput.val(),phoneNumberInput.val(), emailInput.val());
         addressBook.AddContact(newContact);
         displayContactDetails(addressBook);
-        
+        resetFormInputs(inputArray);
     })
-
 })
