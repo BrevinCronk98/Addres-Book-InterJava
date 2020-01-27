@@ -60,16 +60,31 @@ function displayContactDetails(addressBookToDisplay) {
     contactsList.html(htmlForContactInfo);
 }
 
+function showContact(contact) {
+    var showContact = $("#show-contact");
+    var htmlForContactDetails = "";
+    htmlForContactDetails += `<h2>${contact.fullName()}</h2>`;
+    htmlForContactDetails += `<p>${contact.phoneNumber}</p>`;
+    htmlForContactDetails +=  `<p>${contact.email}</p>`;
+    showContact.html(htmlForContactDetails);
+}
+
 function resetFormInputs(formInputs) {
     formInputs.forEach(function(formInput) {
         formInput.val("");
     })
 }
+function attachContactListeners(){
+    $("ul#contacts-list").on("click","li", function(){
+        var contact = addressBook.findContact(this.id);
+        showContact(contact);
+    });
+};
 
 var addressBook = new AddressBook();
 
 $(document).ready(function() {
-
+    attachContactListeners();
     $("form#create-contact-form").submit(function(event) {
         event.preventDefault();
         var firstNameInput = $("input#new-first-name");
