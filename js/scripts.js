@@ -61,12 +61,14 @@ function displayContactDetails(addressBookToDisplay) {
 }
 
 function showContact(contact) {
-    var showContact = $("#show-contact");
+    var showContactElement = $("#show-contact");
     var htmlForContactDetails = "";
     htmlForContactDetails += `<h2>${contact.fullName()}</h2>`;
     htmlForContactDetails += `<p>${contact.phoneNumber}</p>`;
     htmlForContactDetails +=  `<p>${contact.email}</p>`;
-    showContact.html(htmlForContactDetails);
+    htmlForContactDetails += `<button id=${contact.id} class="delete-button">Delete Contact</button>`;
+    showContactElement.html(htmlForContactDetails);
+    showContactElement.toggle();
 }
 
 function resetFormInputs(formInputs) {
@@ -79,6 +81,12 @@ function attachContactListeners(){
         var contact = addressBook.findContact(this.id);
         showContact(contact);
     });
+
+    $("#show-contact").on("click", ".delete-button", function() {
+        addressBook.deleteContact(this.id);
+        $("#show-contact").toggle();
+        displayContactDetails(addressBook);
+    })
 };
 
 var addressBook = new AddressBook();
