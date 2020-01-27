@@ -6,7 +6,7 @@ function AddressBook()
 }
 
 AddressBook.prototype.AddContact = function(contact) {
-    contact.id = this.assginId();
+    contact.id = this.assignId();
     this.contacts.push(contact);
 }
 
@@ -50,7 +50,30 @@ AddressBook.prototype.assignId = function() {
     return this.firstName + " " + this.lastName;
 }
 
-$(document).ready(function()
-{
+//Interface logic
+function displayContactDetails(addressBookToDisplay) {
+    var contactsList = $("#contacts-list");
+    var htmlForContactInfo = "";
+    addressBookToDisplay.contacts.forEach(function(contact) {
+        htmlForContactInfo += `<li id='${contact.id}'>${contact.fullName()}</li>`;
+    });
+    contactsList.html(htmlForContactInfo);
+}
+
+var addressBook = new AddressBook();
+
+$(document).ready(function() {
+
+    $("form#create-contact-form").submit(function(event) {
+        event.preventDefault();
+        var inputtedFirstName = $("input#new-first-name").val();
+        var inputtedLastName = $("input#new-last-name").val();
+        var inputtedPhoneNumber = $("input#new-phone-number").val();
+        var inputtedEmail = $("input#new-email").val();
+        var newContact = new Contact (inputtedFirstName, inputtedLastName,inputtedPhoneNumber, inputtedEmail);
+        addressBook.AddContact(newContact);
+        displayContactDetails(addressBook);
+        
+    })
 
 })
